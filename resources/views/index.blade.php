@@ -27,21 +27,19 @@
     @endif
 
     <form action="/save-student" method="POST">
-        @csrf <div class="form-group">
+        @csrf
+        <div class="form-group">
             <label>Student Name:</label>
             <input type="text" name="name" required placeholder="Enter Name">
         </div>
-
         <div class="form-group">
             <label>Email Address:</label>
             <input type="email" name="email" required placeholder="Enter Email">
         </div>
-
         <div class="form-group">
             <label>Age:</label>
             <input type="number" name="age" required placeholder="Enter Age">
         </div>
-
         <button type="submit">Register Student</button>
     </form>
 
@@ -54,8 +52,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Age</th>
-                <th>Joined</th>
-            </tr>
+                <th>Action</th> </tr>
         </thead>
         <tbody>
             @foreach($students as $student)
@@ -64,7 +61,14 @@
                     <td>{{ $student->name }}</td>
                     <td>{{ $student->email }}</td>
                     <td>{{ $student->age }}</td>
-                    <td>{{ $student->created_at->diffForHumans() }}</td>
+                    <td>
+                        <a href="/edit-student/{{ $student->id }}" style="text-decoration: none; background: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; margin-right: 5px;">Edit</a>
+                        <br><br>
+                        <form action="/delete-student/{{ $student->id }}" method="POST">
+                            @csrf
+                            @method('DELETE') <button type="submit" style="background: #dc3545; width: auto; padding: 5px 10px;" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
